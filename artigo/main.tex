@@ -36,8 +36,8 @@
   ignore the idle capacity of the devices themselves. This paper presents
   KMP, a tool that distributes packages from an Ed25519-signed catalog over
   BitTorrent, with a standalone static daemon for aarch64 consoles, local
-  discovery, IPv6 and NAT hole punching between home networks, a desktop
-  publisher and battery-aware community seeding. In an A/B test on a
+  discovery, IPv6 connectivity between home networks backed by a public seed
+  node, a desktop publisher and battery-aware community seeding. In an A/B test on a
   1~GB console, the current engine kept transfer speed while seeding with
   27~MB of resident memory, against 271~MB in the previous version.
 \end{abstract}
@@ -48,9 +48,9 @@
   servidores e ignoram a capacidade ociosa dos próprios aparelhos. Este artigo
   apresenta o KMP, uma ferramenta que distribui pacotes de um catálogo assinado
   com Ed25519 por BitTorrent, com um daemon estático e independente para
-  consoles aarch64, descoberta local, IPv6 e hole punching entre redes
-  domésticas, um publicador para desktop e semeação comunitária ciente da
-  bateria. Num teste A/B em um console de 1~GB, o motor atual manteve a
+  consoles aarch64, descoberta local, conectividade IPv6 entre redes
+  domésticas apoiada por um nó público, um publicador para desktop e semeação
+  comunitária ciente da bateria. Num teste A/B em um console de 1~GB, o motor atual manteve a
   velocidade de transferência semeando com 27~MB de memória residente, contra
   271~MB na versão anterior.
 \end{resumo}
@@ -98,9 +98,11 @@ contribuições são:
   \item um catálogo assinado com Ed25519, distribuído pelo próprio swarm, com
         proteção contra rollback e múltiplos espelhos sem chave privada
         (Seção~\ref{sec:arquitetura});
-  \item a demonstração, em redes domésticas reais, de consoles semeando entre
-        si na mesma rede e para aparelhos em outras redes por IPv6 e por hole
-        punching IPv4 (Seção~\ref{sec:avaliacao}).
+  \item a medição, em redes domésticas reais, de por onde chega cada byte: na
+        mesma rede, os próprios consoles entregam a maior parte dos pacotes; em
+        redes diferentes, o nó público garante a entrega imediata e os consoles
+        assumem por IPv6 e uTP quando a descoberta se propaga
+        (Seção~\ref{sec:avaliacao}).
 \end{itemize}
 
 Nenhum desses mecanismos é inédito isoladamente. A contribuição está em
@@ -325,22 +327,72 @@ interface, cuja CPU parada caiu 85\% com o limite de quadros.
 
 \subsection{Conectividade entre consoles (Q2)}
 
-\textbf{Mesma rede.} Com a descoberta local, um console que já tinha o pacote
-começou a semear para outro console da mesma casa no instante em que o
-download começou, sem tracker nem nó público. De um PC para um console na
-mesma rede, a taxa chegou a 3,8~MiB/s.
+\textbf{Metodologia.} Para saber por onde chegou cada byte, o daemon passou a
+acumular, por torrent, os bytes recebidos e enviados por caminho, isto é, por
+endereço e porta remotos, origem do peer (tracker, DHT, PEX, descoberta local,
+peer passado pelo Client ou conexão de entrada) e transporte (TCP ou uTP sobre
+IPv4 ou IPv6), incluindo as conexões já encerradas. Um console ficou na rede
+doméstica, semeando o catálogo pelo nó comunitário, junto com o Publisher num
+PC da mesma rede e o nó público. O outro console baixou pelo próprio Client,
+com a opção ``Só P2P'' (sem espelhos HTTP) e o nó comunitário desligado, três
+pacotes do catálogo: primeiro na rede doméstica e depois conectado à rede
+móvel de um celular, com IPv4 atrás de CGNAT e IPv6 público. A rede doméstica
+não aceita conexões IPv4 de entrada, mas aceita IPv6. Um registrador no
+próprio console gravou os totais a cada 2~s.
 
-\textbf{Redes diferentes.} Com um console conectado à rede móvel de um
-celular e os demais na rede doméstica, que não aceita conexões IPv4 de
-entrada em nenhuma porta, o PC enviou cerca de 25~MiB ao console por hole
-punching IPv4 coordenado pelo nó público e por IPv6 direto. Num segundo
-download, outro console e o PC enviaram cerca de 20~MiB cada por IPv6. Um
-pacote de 2,96~GiB foi validado pelo CI baixando exclusivamente do swarm em
-21,5~min.
+\begin{table}[ht]
+\centering
+\caption{Origem dos bytes recebidos pelo console em cada download: fração
+entregue pelo nó público e pelos demais aparelhos (o outro console e o PC).
+Pacotes: Asphalt~5 (108~MiB), Riptide GP (44~MiB) e Celeste~64 (31~MiB).}
+\label{tab:conectividade}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrrl@{}}
+\toprule
+Rede & Pacote & Min.\ após a troca & Duração (s) & Nó & Outros & Caminho dos outros \\
+\midrule
+\multirow{3}{*}{doméstica} & Asphalt 5 & -- & 48 & 29\% & 71\% & IPv4, TCP, LPD \\
+ & Riptide GP & -- & 26 & 9\% & 91\% & IPv4, TCP, PEX e DHT \\
+ & Celeste 64 & -- & 18 & 25\% & 75\% & IPv4, TCP, LPD \\
+\midrule
+\multirow{8}{*}{móvel} & Asphalt 5 & 0,8 & 74 & 100\% & 0\% & -- \\
+ & Celeste 64 & 2,3 & 19 & 100\% & 0\% & -- \\
+ & Riptide GP & 3,1 & 25 & 100\% & 0\% & -- \\
+ & Asphalt 5 & 7,3 & 73 & 100\% & 0\% & -- \\
+ & Celeste 64 & 9,2 & 22 & 100\% & 0\% & -- \\
+ & Riptide GP & 9,9 & 26 & 67\% & 31\% & IPv6 e IPv4, uTP, DHT \\
+ & Asphalt 5 & 11,3 & 49 & 27\% & 73\% & IPv6 e IPv4, uTP, DHT \\
+ & Celeste 64 & 12,5 & 16 & 35\% & 64\% & IPv6, uTP, DHT \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\pendente{repetir os testes de conectividade com registro sistemático
-(origem de cada peer, bytes por caminho) para transformá-los em resultado
-quantitativo.}
+\textbf{Resultados.} Na rede doméstica, o outro console e o PC entregaram de
+71\% a 91\% de cada pacote, encontrados pela descoberta local, por PEX e pela
+DHT, em IPv4 e IPv6 (Tabela~\ref{tab:conectividade}). Na rede móvel, o padrão
+depende do tempo desde a troca de rede. Nos downloads iniciados até cerca de
+9~minutos depois, o nó público entregou praticamente 100\%: o console conhecia
+os outros aparelhos pelos endereços IPv4 da rede doméstica, mas não conseguia
+alcançá-los, e o daemon registrou 19 peers indiscáveis sem hole punching e uma
+única tentativa de hole punching, sem sucesso. A partir de 10~minutos, os
+aparelhos da rede doméstica passaram a entregar de 31\% a 73\% de cada pacote,
+quase tudo por uTP e descobertos pela DHT, majoritariamente por IPv6, e o
+Asphalt~5 caiu de 73~s para 49~s. Esse intervalo é coerente com o tempo de
+propagação do novo endereço do console pela DHT, já que o nó público, só com
+IPv4, não repassa endereços IPv6 por PEX. Numa rodada adicional com o nó
+comunitário do console ligado, os outros aparelhos também só entraram no meio
+dos downloads, o que indica que manter o console nos swarms não elimina esse
+intervalo.
+
+Os resultados mostram as duas funções da infraestrutura: o nó público garante a
+entrega logo após uma mudança de rede, e a semeação entre consoles assume a
+maior parte do tráfego quando a descoberta se propaga. Além disso, um pacote de
+2,96~GiB foi validado pelo CI baixando exclusivamente do swarm em 21,5~min. O
+experimento também revelou dois defeitos, a corrigir na próxima versão: a
+descoberta local não se recuperava após a troca de rede, e o gerenciador de
+ports dos firmwares encerra todos os processos Python ao sair de qualquer jogo,
+inclusive os do nó comunitário.
 
 \subsection{Comparação com um cliente de uso geral (Q3)}
 
@@ -430,8 +482,10 @@ daemon independente, consumo de recursos medido e semeação entre redes
 diferentes. Comparado ao Transmission no mesmo console, o daemon do \kmp{}
 começou a transferir 10~s antes e gastou 27\% menos CPU por GiB baixado, mas
 consome mais em repouso. Os trabalhos futuros incluem reduzir esse custo em
-repouso, nós públicos redundantes operados pela comunidade e a integração com
-o gerenciamento de um segundo cartão SD.
+repouso, um nó público com IPv6, que poderia repassar endereços IPv6 e encurtar
+o intervalo até os consoles se encontrarem em redes diferentes, nós públicos
+redundantes operados pela comunidade e a integração com o gerenciamento de um
+segundo cartão SD.
 
 \bibliographystyle{sbc}
 \bibliography{referencias}

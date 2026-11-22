@@ -1,0 +1,17 @@
+{
+ "ips": {
+  "163.176.18.211": "nó público",
+  "192.168.0.57": "console antigo (.57)",
+  "192.168.0.26": "PC (Publisher)",
+  "192.168.0.98": "portátil novo (.98)",
+  "2001:db8:1::198a": "rede de casa (IPv6 compartilhado ::198a)"
+ },
+ "ports": {
+  "6882": "PC (Publisher)",
+  "55681": "console antigo (.57)",
+  "32223": "portátil novo (.98)",
+  "6881": "nó público"
+ },
+ "lan": "192.168.0.",
+ "home_v6": "2001:db8:1:"
+}

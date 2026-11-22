@@ -1,0 +1,37 @@
+cenario,pacote,inicio_unix,minutos_apos_troca_de_rede,duracao_s,tamanho_bytes,rede_do_console,aparelho,familia,transporte,origem,ip,porta,bytes_recebidos,fracao
+mesma rede,Asphalt 5,1795384115,,48.5,113174242,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv4,TCP,rede local (LPD),192.168.0.26,6882,44695552,0.3949
+mesma rede,Asphalt 5,1795384115,,48.5,113174242,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,entrada,192.168.0.57,59404,35530466,0.3139
+mesma rede,Asphalt 5,1795384115,,48.5,113174242,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,nó público,IPv4,TCP,peer direto,163.176.18.211,6881,32948224,0.2911
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,PEX,203.0.113.1,55681,9781248,0.2117
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv4,TCP,DHT,203.0.113.1,6882,8905487,0.1927
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv6,TCP,DHT,2001:db8:1::128c,6882,6750208,0.1461
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv4,TCP,rede local (LPD),192.168.0.26,6882,5947392,0.1287
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,PEX,192.168.0.57,55681,5259264,0.1138
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,entrada,192.168.0.57,59758,5226496,0.1131
+mesma rede,Riptide GP,1795384250,,26.4,46211855,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,nó público,IPv4,TCP,peer direto,163.176.18.211,6881,4341760,0.094
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,rede local (LPD),192.168.0.57,55681,13039160,0.3994
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,6914048,0.2118
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv6,TCP,PEX,2001:db8:1::128c,6882,3964928,0.1214
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv4,TCP,PEX,203.0.113.1,6882,3555328,0.1089
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,PC (Publisher),IPv4,TCP,rede local (LPD),192.168.0.26,6882,2506752,0.0768
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,console antigo (.57),IPv4,TCP,entrada,192.168.0.57,59988,1359872,0.0416
+mesma rede,Celeste 64,1795384337,,18.2,32650808,192.168.0.98/24 2001:db8:1:0:7f8f:2fde:5f10:b08b/64 2001:db8:1::198a/128,nó público,IPv4,TCP,rede local (LPD),192.168.0.26,6881,1310720,0.0401
+"dados móveis, nó comunitário desligado, logo após a troca",Asphalt 5,1795384503,0.76,74.0,113174242,,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,113174242,1.0
+"dados móveis, nó comunitário desligado, logo após a troca",Celeste 64,1795384596,2.31,19.0,32650808,,nó público,IPv4,TCP,peer direto,163.176.18.211,6881,32650808,1.0
+"dados móveis, nó comunitário desligado, logo após a troca",Riptide GP,1795384642,3.07,25.0,46211855,,nó público,IPv4,TCP,peer direto,163.176.18.211,6881,46211855,1.0
+"dados móveis, nó comunitário desligado, após espera",Asphalt 5,1795385667,7.32,73.1,113174242,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,112846562,0.9971
+"dados móveis, nó comunitário desligado, após espera",Celeste 64,1795385781,9.22,22.4,32650808,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,32650808,1.0
+"dados móveis, nó comunitário desligado, após espera",Riptide GP,1795385824,9.93,26.4,46211855,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,nó público,IPv4,TCP,peer direto,163.176.18.211,6881,30769152,0.6658
+"dados móveis, nó comunitário desligado, após espera",Riptide GP,1795385824,9.93,26.4,46211855,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,PC (Publisher),IPv6,uTP,DHT,2001:db8:1::128c,6882,8610575,0.1863
+"dados móveis, nó comunitário desligado, após espera",Riptide GP,1795385824,9.93,26.4,46211855,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,console antigo (.57),IPv4,uTP,DHT,203.0.113.1,55681,5570560,0.1205
+"dados móveis, nó comunitário desligado, após espera",Riptide GP,1795385824,9.93,26.4,46211855,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,rede de casa (IPv6 compartilhado ::198a),IPv6,TCP,entrada,2001:db8:1::198a,57172,327680,0.0071
+"dados móveis, nó comunitário desligado, após espera",Asphalt 5,1795385903,11.25,48.9,113174242,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,PC (Publisher),IPv6,uTP,DHT,2001:db8:1::128c,6882,32096256,0.2836
+"dados móveis, nó comunitário desligado, após espera",Asphalt 5,1795385903,11.25,48.9,113174242,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,30310400,0.2678
+"dados móveis, nó comunitário desligado, após espera",Asphalt 5,1795385903,11.25,48.9,113174242,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,console antigo (.57),IPv6,uTP,DHT,2001:db8:1::198a,55681,26230784,0.2318
+"dados móveis, nó comunitário desligado, após espera",Asphalt 5,1795385903,11.25,48.9,113174242,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,console antigo (.57),IPv4,uTP,DHT,203.0.113.1,55681,24536802,0.2168
+"dados móveis, nó comunitário desligado, após espera",Celeste 64,1795385978,12.5,16.2,32650808,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,11468800,0.3513
+"dados móveis, nó comunitário desligado, após espera",Celeste 64,1795385978,12.5,16.2,32650808,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,PC (Publisher),IPv6,uTP,DHT,2001:db8:1::128c,6882,10764288,0.3297
+"dados móveis, nó comunitário desligado, após espera",Celeste 64,1795385978,12.5,16.2,32650808,10.243.229.184/24 2001:db8:2:0:5ed:6c20:6411:1bc6/64,console antigo (.57),IPv6,uTP,DHT,2001:db8:1::198a,55681,10024504,0.307
+"dados móveis, nó comunitário ligado",Riptide GP,1795387181,12.93,105.0,46211855,,console antigo (.57),IPv6,uTP,DHT,2001:db8:1::198a,55681,18071552,0.3911
+"dados móveis, nó comunitário ligado",Riptide GP,1795387181,12.93,105.0,46211855,,PC (Publisher),IPv6,uTP,DHT,2001:db8:1::128c,6882,16868111,0.365
+"dados móveis, nó comunitário ligado",Riptide GP,1795387181,12.93,105.0,46211855,,nó público,IPv4,uTP,peer direto,163.176.18.211,6881,11272192,0.2439

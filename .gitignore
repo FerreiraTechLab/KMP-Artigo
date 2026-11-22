@@ -19,3 +19,5 @@ scripts/benchmark/local/
 scripts/benchmark/transmission/
 __pycache__/
 scripts/benchmark/*.log
+scripts/conectividade/bin/
+dados-originais-locais/

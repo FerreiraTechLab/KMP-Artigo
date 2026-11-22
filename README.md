@@ -18,6 +18,7 @@ O KMP distribui pacotes para consoles portáteis Linux de baixo custo (aarch64, 
 |---|---|
 | [`artigo/`](artigo/) | Texto em LaTeX no modelo da SBC (`main.tex`, `referencias.bib`). As pendências aparecem em vermelho no PDF, pela macro `\pendente{}`. |
 | [`scripts/benchmark/`](scripts/benchmark/) | Scripts das medições: o teste A/B do KMP 0.2.56 contra 0.2.60 e a comparação do kmp-torrentd com o transmission-daemon. Ver o [README](scripts/benchmark/README.md). |
+| [`scripts/conectividade/`](scripts/conectividade/) | Registrador e análise de por onde chega cada byte, na mesma rede e entre redes diferentes. Ver o [README](scripts/conectividade/README.md). |
 | [`dados/`](dados/) | Resultados em CSV, com o resumo por rodada e as amostras segundo a segundo. Ver o [README](dados/README.md). |
 
 ## Gerar o PDF
@@ -54,6 +55,7 @@ Medidos num console com o processador do R36H e do R46H e 1 GB de RAM, em 3 roda
 | | Resultado |
 |---|---|
 | KMP 0.2.56 → 0.2.60 | Memória do motor semeando (RSS): 271 → 27 MB, com a mesma memória anônima. CPU da interface parada: 34,9% → 5,1%. Velocidade de transferência sem perda. |
+| Conectividade (Q2) | Na mesma rede, o outro console e o PC entregaram de 71% a 91% de cada pacote. Na rede móvel, o nó público entregou ~100% nos primeiros ~9 min após a troca de rede; depois, os aparelhos de casa passaram a entregar de 31% a 73%, por IPv6/uTP via DHT. |
 | kmp-torrentd × Transmission 4.0.6 | O kmp começa a transferir em 0,4 s, contra 10,6 s, e gasta 146 contra 200 s de CPU por GiB baixado. O Transmission gasta menos parado: 0,7% contra 3,1% de CPU. |
 
 ## Licenças
