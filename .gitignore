@@ -1,0 +1,21 @@
+# Saídas do LaTeX
+artigo/*.aux
+artigo/*.bbl
+artigo/*.blg
+artigo/*.log
+artigo/*.out
+artigo/*.fls
+artigo/*.fdb_latexmk
+artigo/*.synctex.gz
+artigo/main.pdf
+# Resultados brutos do benchmark gerados localmente
+scripts/benchmark/results/
+scripts/benchmark/work/
+# Binários usados pelo benchmark (regeneráveis; ver scripts/benchmark/README.md)
+scripts/benchmark/old/
+scripts/benchmark/new/
+scripts/benchmark/pc/
+scripts/benchmark/local/
+scripts/benchmark/transmission/
+__pycache__/
+scripts/benchmark/*.log

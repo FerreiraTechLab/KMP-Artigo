@@ -1,0 +1,115 @@
+data,console,motor,versao,rodada,descoberta,metrica,valor,unidade
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,download,4.607,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,upload,4.609,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,download_apos_primeiro_byte,4.644,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,upload_apos_primeiro_byte,4.631,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,download_primeiro_byte,0.433,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,upload_primeiro_byte,0.254,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,cpu_motor_baixando,66.053,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,cpu_motor_enviando,21.865,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,cpu_s_por_gib_baixado,148.4,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,cpu_s_por_gib_enviado,49.72,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,cpu_motor_parado,3.135,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,rss_motor_pico,34.703,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,pss_motor_pico,34.695,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,anonima_motor_pico,18.887,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,mapeado_motor_pico,15.875,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,rss_motor_fim,29.758,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,ram_disponivel_min,532.656,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,api_pior_resposta,0.18,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,1,tracker,api_sem_resposta,0,amostras
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,download,2.803,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,upload,4.224,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,download_apos_primeiro_byte,2.814,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,upload_apos_primeiro_byte,4.242,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,download_primeiro_byte,0.365,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,upload_primeiro_byte,0.254,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,cpu_motor_baixando,39.674,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,cpu_motor_enviando,19.153,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,cpu_s_por_gib_baixado,146.0,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,cpu_s_por_gib_enviado,47.44,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,cpu_motor_parado,2.572,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,rss_motor_pico,34.676,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,pss_motor_pico,34.668,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,anonima_motor_pico,19.242,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,mapeado_motor_pico,15.438,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,rss_motor_fim,26.184,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,ram_disponivel_min,443.059,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,api_pior_resposta,0.209,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,2,tracker,api_sem_resposta,0,amostras
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,download,3.64,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,upload,4.781,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,download_apos_primeiro_byte,3.664,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,upload_apos_primeiro_byte,4.804,MiB/s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,download_primeiro_byte,0.45,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,upload_primeiro_byte,0.255,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,cpu_motor_baixando,48.269,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,cpu_motor_enviando,39.932,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,cpu_s_por_gib_baixado,136.92,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,cpu_s_por_gib_enviado,85.96,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,cpu_motor_parado,3.284,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,rss_motor_pico,35.945,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,pss_motor_pico,35.938,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,anonima_motor_pico,20.473,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,mapeado_motor_pico,15.473,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,rss_motor_fim,27.07,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,ram_disponivel_min,440.055,MiB
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,api_pior_resposta,0.483,s
+2026-11-22,192.168.0.57 (console antigo),new,kmp-torrentd 0.2.8,3,tracker,api_sem_resposta,0,amostras
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,download,2.415,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,upload,3.945,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,download_apos_primeiro_byte,2.693,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,upload_apos_primeiro_byte,4.225,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,download_primeiro_byte,10.919,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,upload_primeiro_byte,4.298,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,cpu_motor_baixando,47.134,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,cpu_motor_enviando,24.746,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,cpu_s_por_gib_baixado,200.44,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,cpu_s_por_gib_enviado,64.92,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,cpu_motor_parado,0.757,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,rss_motor_pico,28.691,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,pss_motor_pico,28.633,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,anonima_motor_pico,19.383,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,mapeado_motor_pico,9.309,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,rss_motor_fim,11.215,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,ram_disponivel_min,477.348,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,api_pior_resposta,3.005,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),1,tracker,api_sem_resposta,6,amostras
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,download,2.505,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,upload,3.931,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,download_apos_primeiro_byte,2.796,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,upload_apos_primeiro_byte,4.569,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,download_primeiro_byte,10.639,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,upload_primeiro_byte,9.096,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,cpu_motor_baixando,50.411,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,cpu_motor_enviando,23.17,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,cpu_s_por_gib_baixado,207.28,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,cpu_s_por_gib_enviado,60.76,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,cpu_motor_parado,0.66,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,rss_motor_pico,28.516,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,pss_motor_pico,28.5,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,anonima_motor_pico,19.27,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,mapeado_motor_pico,9.246,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,rss_motor_fim,11.012,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,ram_disponivel_min,457.625,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,api_pior_resposta,3.005,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),2,tracker,api_sem_resposta,5,amostras
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,download,2.658,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,upload,3.992,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,download_apos_primeiro_byte,2.979,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,upload_apos_primeiro_byte,4.352,MiB/s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,download_primeiro_byte,10.403,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,upload_primeiro_byte,5.309,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,cpu_motor_baixando,47.875,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,cpu_motor_enviando,24.425,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,cpu_s_por_gib_baixado,186.04,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,cpu_s_por_gib_enviado,63.08,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,cpu_motor_parado,0.708,% de um núcleo
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,rss_motor_pico,32.113,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,pss_motor_pico,32.102,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,anonima_motor_pico,22.762,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,mapeado_motor_pico,9.352,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,rss_motor_fim,11.359,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,ram_disponivel_min,408.344,MiB
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,api_pior_resposta,3.006,s
+2026-11-22,192.168.0.57 (console antigo),transmission,4.0.6 (38c164933e),3,tracker,api_sem_resposta,7,amostras

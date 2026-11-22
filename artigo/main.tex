@@ -1,0 +1,439 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx,url}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,arrows.meta,backgrounds}
+
+% Marca visível de pendência; trocar a definição por \newcommand{\pendente}[1]{} antes de submeter.
+\newcommand{\pendente}[1]{{\color{red}\textbf{[PENDENTE: #1]}}}
+\newcommand{\kmp}{\textsc{KMP}}
+
+\sloppy
+
+\title{KMP: Distribuição Cooperativa e Autenticada de Pacotes\\
+       para Consoles Portáteis Linux de Baixo Custo}
+
+\author{Weslei Ferreira Santos\inst{1}}
+
+\address{\pendente{instituição, departamento, cidade -- UF}
+  \email{\pendente{e-mail institucional}}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  Linux handheld consoles with 1~GB of RAM receive community game ports
+  through centralized HTTP downloads, which concentrate cost on a few hosts and
+  ignore the idle capacity of the devices themselves. This paper presents
+  KMP, a tool that distributes packages from an Ed25519-signed catalog over
+  BitTorrent, with a standalone static daemon for aarch64 consoles, local
+  discovery, IPv6 and NAT hole punching between home networks, a desktop
+  publisher and battery-aware community seeding. In an A/B test on a
+  1~GB console, the current engine kept transfer speed while seeding with
+  27~MB of resident memory, against 271~MB in the previous version.
+\end{abstract}
+
+\begin{resumo}
+  Consoles portáteis Linux com 1~GB de RAM recebem ports de jogos da
+  comunidade por downloads HTTP centralizados, que concentram o custo em poucos
+  servidores e ignoram a capacidade ociosa dos próprios aparelhos. Este artigo
+  apresenta o KMP, uma ferramenta que distribui pacotes de um catálogo assinado
+  com Ed25519 por BitTorrent, com um daemon estático e independente para
+  consoles aarch64, descoberta local, IPv6 e hole punching entre redes
+  domésticas, um publicador para desktop e semeação comunitária ciente da
+  bateria. Num teste A/B em um console de 1~GB, o motor atual manteve a
+  velocidade de transferência semeando com 27~MB de memória residente, contra
+  271~MB na versão anterior.
+\end{resumo}
+
+% ---------------------------------------------------------------------------
+\section{Introdução}
+\label{sec:intro}
+
+Consoles portáteis baseados em Linux, como os modelos R36H e R46H, usam
+processadores ARM de 64 bits, 1~GB de RAM e cartões SD, e rodam firmwares
+comunitários como ArkOS, dArkOS e ROCKNIX. O ecossistema
+PortMaster~\cite{portmaster} disponibiliza para esses aparelhos centenas de
+ports, pacotes que vão de poucos megabytes a vários gigabytes. A distribuição é
+feita por downloads HTTP de servidores e repositórios centrais: cada
+instalação consome banda de quem hospeda o arquivo, e os consoles que já
+possuem o pacote não ajudam os demais.
+
+Distribuição cooperativa por BitTorrent~\cite{cohen2003incentives,bep3} é uma
+resposta conhecida para esse custo, e sistemas como
+Dragonfly~\cite{dragonfly}, Kraken~\cite{kraken} e
+PeerSync~\cite{deng2026peersync} a aplicam a imagens de contêineres em
+datacenters e na borda. O cenário dos consoles, porém, combina restrições que
+esses sistemas não têm como premissa:
+(i)~os participantes são aparelhos de 1~GB de RAM, alimentados por bateria,
+com firmwares imutáveis em que não é possível instalar dependências no
+sistema;
+(ii)~estão espalhados por redes domésticas heterogêneas, frequentemente atrás
+de NAT e sem portas de entrada; e
+(iii)~não há operador central: os pacotes vêm de autores da comunidade e
+precisam ser autenticados antes de instalados.
+
+Este artigo investiga a pergunta: \emph{quais limitações operacionais
+dificultam a distribuição cooperativa de arquivos em dispositivos embarcados
+de baixo custo espalhados por redes domésticas, e em que medida uma
+ferramenta integrada consegue superá-las?} Como resposta, apresentamos o
+\kmp{}, que reúne em uma única ferramenta a publicação, a autenticação, a
+distribuição, a instalação e a semeação comunitária de pacotes. As
+contribuições são:
+
+\begin{itemize}
+  \item um daemon BitTorrent estático para aarch64, independente da interface
+        e controlado por JSON-RPC, com descoberta local, IPv6 e hole punching,
+        cujo consumo de recursos foi medido em um console de 1~GB
+        (Seção~\ref{sec:avaliacao});
+  \item um catálogo assinado com Ed25519, distribuído pelo próprio swarm, com
+        proteção contra rollback e múltiplos espelhos sem chave privada
+        (Seção~\ref{sec:arquitetura});
+  \item a demonstração, em redes domésticas reais, de consoles semeando entre
+        si na mesma rede e para aparelhos em outras redes por IPv6 e por hole
+        punching IPv4 (Seção~\ref{sec:avaliacao}).
+\end{itemize}
+
+Nenhum desses mecanismos é inédito isoladamente. A contribuição está em
+integrá-los e em operá-los sobre hardware restrito, com avaliação
+experimental. A Seção~\ref{sec:relacionados} discute os trabalhos
+relacionados; a Seção~\ref{sec:arquitetura} descreve a arquitetura; a
+Seção~\ref{sec:avaliacao} apresenta a avaliação; a
+Seção~\ref{sec:artefatos} lista os artefatos e a demonstração planejada; e a
+Seção~\ref{sec:conclusao} conclui.
+
+% ---------------------------------------------------------------------------
+\section{Trabalhos relacionados}
+\label{sec:relacionados}
+
+\textbf{Clientes BitTorrent de uso geral.} Transmission~\cite{transmission} e
+aria2~\cite{aria2} implementam o protocolo com DHT~\cite{bep5},
+PEX~\cite{bep11} e descoberta local~\cite{bep14}, e oferecem interfaces RPC.
+São ferramentas de transferência: não decidem quais arquivos são legítimos,
+não instalam pacotes e não foram desenhadas para conviver com uma interface
+gráfica na mesma memória de um console. O \kmp{} usou o aria2 como motor nas
+primeiras versões e o mantém como alternativa de reserva.
+
+\textbf{Distribuição P2P em datacenters e na borda.} O
+Dragonfly~\cite{dragonfly}, projeto graduado da CNCF, e o
+Kraken~\cite{kraken} aceleram a distribuição de imagens de contêineres entre
+nós de um cluster, com componentes de agendamento e rastreamento. O
+PeerSync~\cite{deng2026peersync} leva a ideia para a borda, com eleição
+automática de tracker, recuperação de falhas e liberação cooperativa de
+cache, e relata ganhos de 1,79$\times$ sobre o Dragonfly e 1,28$\times$ sobre
+o Kraken. Esses sistemas pressupõem nós sob um mesmo domínio administrativo e
+integração com runtimes de contêineres; o \kmp{} atende aparelhos de usuários
+finais, em redes que ninguém administra.
+
+\textbf{Atualização segura e travessia de NAT.} O TUF~\cite{samuel2010tuf}
+sistematiza ameaças a sistemas de atualização, como rollback e chaves
+comprometidas; o catálogo do \kmp{} adota parte dessas defesas, com sequência
+monotônica e expiração. A travessia de NAT por hole
+punching~\cite{ford2005nat,rfc5128} é padronizada no BitTorrent pela
+BEP~55~\cite{bep55}.
+
+A Tabela~\ref{tab:comparacao} resume as diferenças segundo a documentação
+consultada. A ausência de marca não significa ausência da funcionalidade, e
+sim que ela não foi confirmada nas fontes.
+
+\begin{table}[ht]
+\centering
+\caption{Características segundo a documentação de cada ferramenta
+($\bullet$ documentado; ? não confirmado; -- fora do escopo).}
+\label{tab:comparacao}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Característica & \kmp{} & Transmission & aria2 & Dragonfly & PeerSync \\
+\midrule
+Alvo principal & consoles & desktop & desktop & cluster & borda \\
+DHT, PEX e descoberta local & $\bullet$ & $\bullet$ & $\bullet$ & ? & ? \\
+Hole punching (BEP 55) & $\bullet$ & ? & ? & ? & ? \\
+Catálogo assinado com anti-rollback & $\bullet$ & -- & -- & ? & ? \\
+Instalação dos pacotes & $\bullet$ & -- & -- & $\bullet$ & $\bullet$ \\
+Executável estático, sem dependências & $\bullet$ & ? & ? & ? & ? \\
+Avaliado em aparelho de 1~GB & $\bullet$ & ? & ? & ? & ? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pendente{conferir cada ``?'' na documentação antes da submissão.}
+
+% ---------------------------------------------------------------------------
+\section{Arquitetura e funcionalidades}
+\label{sec:arquitetura}
+
+O \kmp{} tem cinco componentes (Figura~\ref{fig:arquitetura}): o
+\emph{Publisher}, o \emph{catálogo assinado}, o daemon
+\emph{kmp-torrentd}, o \emph{Client} do console e um \emph{nó público} de
+semeação. Somados, o daemon, o Client e os scripts do console têm cerca de
+7.800 linhas de Go, Lua, Python e shell.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    font=\footnotesize,
+    box/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, inner sep=3pt},
+    group/.style={draw, dashed, rounded corners=3pt, inner sep=5pt},
+    arr/.style={-{Stealth[length=2mm]}, thick}]
+  \node[box] (pub) {Publisher\\(Electron)};
+  \node[box, right=16mm of pub] (ci) {Repositório do catálogo\\validação no CI};
+  \node[box, right=12mm of ci] (head) {\texttt{head.json} + assinatura\\espelhos HTTPS};
+  \node[box, below=14mm of ci] (swarm) {Swarm BitTorrent\\DHT $\cdot$ PEX $\cdot$ LPD $\cdot$ BEP 55};
+  \node[box, left=10mm of swarm] (node) {Nó público\\(semeador)};
+  \node[box, below=12mm of swarm, xshift=-22mm] (ui) {Interface\\(LÖVE)};
+  \node[box, right=8mm of ui] (daemon) {kmp-torrentd\\(Go, estático)};
+  \node[box, right=8mm of daemon] (comm) {Nó comunitário\\e bateria};
+  \node[group, fit=(ui)(daemon)(comm), label={[font=\footnotesize]below:Client no console aarch64}] (client) {};
+  \draw[arr] (pub) -- node[above]{proposta} (ci);
+  \draw[arr] (ci) -- node[above]{assina} (head);
+  \draw[arr] (ci) -- node[right]{torrents} (swarm);
+  \draw[arr, <->] (node) -- (swarm);
+  \draw[arr, <->] (daemon) -- (swarm);
+  \draw[arr] (head) |- node[pos=.25, right]{verifica} (client.east);
+  \draw[arr, <->] (ui) -- node[above]{RPC} (daemon);
+  \draw[arr, <->] (comm) -- (daemon);
+\end{tikzpicture}
+\caption{Arquitetura do KMP: a publicação passa pelo repositório do catálogo;
+os pacotes circulam pelo swarm, do qual os consoles participam.}
+\label{fig:arquitetura}
+\end{figure}
+
+\textbf{Publisher.} Aplicação Electron para Linux, Windows e macOS. O autor
+seleciona o port; o Publisher monta o pacote ZIP, calcula o SHA-256, cria o
+torrent, abre a proposta como pull request no repositório do catálogo e
+semeia o pacote a partir do computador do autor. O Publisher também tem
+atualização automática verificada por SHA-256.
+
+\textbf{Catálogo assinado.} Cada publicação gera um snapshot JSON imutável
+com número de sequência crescente, assinado com Ed25519~\cite{rfc8032} sobre
+os bytes exatos do arquivo. Um documento pequeno, o \texttt{head.json},
+também assinado, aponta para o snapshot pelo magnet, pelo tamanho e pelo
+SHA-256, e tem data de expiração. O mesmo par é copiado para vários
+espelhos, que não possuem a chave privada. O console busca o head em todos
+os espelhos, rejeita assinaturas inválidas, heads expirados e sequências
+menores que a maior já aceita, e baixa o snapshot pelo próprio swarm. Se
+todas as fontes falharem, continua com o último snapshot válido. Antes de
+assinar, o CI baixa cada pacote proposto pelo swarm e confere tamanho e
+hash.
+
+\textbf{kmp-torrentd.} Daemon em Go sobre a biblioteca
+anacrolix/torrent~\cite{anacrolix}, compilado de forma estática para
+aarch64. Por não depender de bibliotecas do sistema, roda em firmwares
+imutáveis sem modificar a partição do sistema. Implementa TCP,
+uTP~\cite{bep29}, DHT IPv4 e IPv6, PEX, descoberta local por multicast
+(BEP~14) e hole punching (BEP~55), e expõe uma API JSON-RPC compatível com o
+subconjunto do aria2 usado pelo Client, o que permitiu trocar de motor sem
+reescrever a interface. O daemon é independente da interface: sobrevive ao
+fechamento do Client, restaura a sessão e continua semeando. Três decisões
+vêm da operação em 1~GB de RAM:
+(i)~os arquivos são lidos e escritos sem mapeamento em memória
+(Seção~\ref{sec:recursos});
+(ii)~em aparelhos de até 1,5~GB, recebe um teto suave de 192~MiB para o heap
+do Go; e
+(iii)~o download não tem limitador de taxa por padrão, porque, na biblioteca,
+um limitador esgotado impede conexões novas, e o console deixava de alcançar
+o nó público.
+Cada console sorteia uma porta de escuta, para que vários aparelhos na mesma
+rede possam ser mapeados por UPnP/NAT-PMP.
+
+\textbf{Client.} Interface em LÖVE~\cite{love2d} no formato de loja, com
+abas de início, instalados e atualizações, controlada pelos botões do
+console. A interface limita a taxa de quadros a 30 por segundo em uso e a 8
+quando parada. O Client baixa e confere cada pacote antes de instalá-lo e
+pode se atualizar pelo próprio catálogo, numa transação com journal que
+sobrevive a quedas de energia. Um \emph{nó comunitário} opcional baixa e
+semeia pacotes do catálogo dentro de uma cota de armazenamento, com no máximo
+dois downloads simultâneos, e pausa a semeação com a bateria abaixo de 30\%.
+
+\textbf{Nó público.} Uma instância gratuita de nuvem (1~vCPU, 1~GB) roda o
+mesmo daemon e semeia todo o catálogo. É anunciado no catálogo e adicionado
+explicitamente a cada download, garantindo uma fonte alcançável quando
+nenhum console está ligado, e coordena o hole punching entre consoles atrás
+de NAT.
+
+% ---------------------------------------------------------------------------
+\section{Avaliação}
+\label{sec:avaliacao}
+
+A avaliação responde a três questões:
+\textbf{Q1:} quanto o \kmp{} consome em um console de 1~GB, e as otimizações
+de memória custaram velocidade de transferência?
+\textbf{Q2:} consoles na mesma rede e em redes diferentes conseguem semear
+entre si sem configuração manual?
+\textbf{Q3:} como o \kmp{} se compara a um cliente BitTorrent de uso geral
+nas mesmas condições?
+
+\subsection{Consumo de recursos (Q1)}
+\label{sec:recursos}
+
+\textbf{Metodologia.} Comparamos os motores das versões 0.2.56 (com
+mapeamento de arquivos em memória) e 0.2.60 (leitura comum) no mesmo
+console, com processador do R36H/R46H e 895~MB de RAM utilizáveis, com as
+mesmas opções (sem limite de banda e sem descoberta local) e três rodadas por
+versão em ordem alternada. Em cada rodada, o console baixa 256~MiB de dados
+aleatórios só de um PC pela rede Wi-Fi doméstica, fica 45~s parado e envia o
+pacote inteiro de volta. CPU e memória são lidas de \texttt{/proc} a cada
+segundo, no próprio console. A interface foi medida em três janelas de 60~s
+com a loja aberta e parada, trocando apenas o código da interface.
+
+\begin{table}[ht]
+\centering
+\caption{Teste A/B no console de 1~GB: mediana e, entre parênteses, a menor e
+a maior das três rodadas.}
+\label{tab:ab}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Métrica & 0.2.56 & 0.2.60 \\
+\midrule
+Download (MiB/s) & 2,19 (2,00--2,96) & 2,89 (2,14--3,06) \\
+Envio (MiB/s) & 4,20 (3,96--4,25) & 4,25 (4,12--4,25) \\
+CPU do motor baixando (\% de um núcleo) & 55 (55--59) & 55 (54--60) \\
+CPU do motor enviando (\%) & 19 (16--37) & 23 (22--45) \\
+CPU do motor parado (\%) & 2,0 (0,8--2,9) & 2,6 (1,6--2,9) \\
+Memória do motor, pico (RSS, MB) & 271 (263--281) & 27 (27--30) \\
+\quad memória anônima (MB) & 16 (15--17) & 15 (15--16) \\
+\quad pacote mapeado (MB) & 259 (247--265) & -- \\
+RAM disponível no pior momento (MB) & 322 (322--386) & 328 (316--350) \\
+CPU da interface parada (\%) & 34,9 (34,8--34,9) & 5,1 (5,05--5,15) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Resultados.} A Tabela~\ref{tab:ab} mostra que a velocidade de envio
+foi a mesma e que as faixas de download se sobrepõem: a diferença de
+mediana vem da variação do Wi-Fi, não de ganho. A CPU do motor também não
+mudou. A memória residente do motor caiu 90\% durante a semeação, mas a
+memória anônima, que o sistema não pode descartar, é a mesma nas duas
+versões: a diferença inteira eram páginas do pacote mapeado, que o kernel
+consegue liberar sob pressão, e por isso a RAM disponível ficou
+praticamente igual. O ganho prático da leitura comum é o motor não reter os
+pacotes que semeia e não ser encerrado por \texttt{SIGBUS} quando um arquivo
+semeado é trocado ou o cartão é removido. O maior ganho visível é o da
+interface, cuja CPU parada caiu 85\% com o limite de quadros.
+
+\subsection{Conectividade entre consoles (Q2)}
+
+\textbf{Mesma rede.} Com a descoberta local, um console que já tinha o pacote
+começou a semear para outro console da mesma casa no instante em que o
+download começou, sem tracker nem nó público. De um PC para um console na
+mesma rede, a taxa chegou a 3,8~MiB/s.
+
+\textbf{Redes diferentes.} Com um console conectado à rede móvel de um
+celular e os demais na rede doméstica, que não aceita conexões IPv4 de
+entrada em nenhuma porta, o PC enviou cerca de 25~MiB ao console por hole
+punching IPv4 coordenado pelo nó público e por IPv6 direto. Num segundo
+download, outro console e o PC enviaram cerca de 20~MiB cada por IPv6. Um
+pacote de 2,96~GiB foi validado pelo CI baixando exclusivamente do swarm em
+21,5~min.
+
+\pendente{repetir os testes de conectividade com registro sistemático
+(origem de cada peer, bytes por caminho) para transformá-los em resultado
+quantitativo.}
+
+\subsection{Comparação com um cliente de uso geral (Q3)}
+
+\textbf{Metodologia.} Repetimos o roteiro da Seção~\ref{sec:recursos} com o
+\texttt{transmission-daemon} 4.0.6~\cite{transmission} no lugar do motor
+antigo, em outro console do mesmo modelo. Como o Transmission não aceita
+peers pela API, os dois motores, o semeador e o receptor no PC se encontram
+pelo mesmo tracker HTTP na rede local. O Transmission foi obtido dos pacotes
+do Alpine Linux e roda com as próprias bibliotecas musl, sem alterar o
+firmware, e usa a configuração padrão, exceto pelo que precisa ser igual ao
+\kmp{}: sem limites de banda e de proporção, sem descoberta local e com DHT,
+PEX, uTP e mapeamento de porta ligados. Separamos o tempo até o primeiro byte
+da velocidade medida a partir dele.
+
+\begin{table}[ht]
+\centering
+\caption{kmp-torrentd 0.2.8 contra Transmission 4.0.6 no console de 1~GB:
+mediana e, entre parênteses, a menor e a maior das três rodadas.}
+\label{tab:transmission}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Métrica & kmp-torrentd & Transmission \\
+\midrule
+Tempo até o primeiro byte (s) & 0,4 (0,4--0,5) & 10,6 (10,4--10,9) \\
+Download após o primeiro byte (MiB/s) & 3,66 (2,81--4,64) & 2,80 (2,69--2,98) \\
+Envio após o primeiro byte (MiB/s) & 4,63 (4,24--4,80) & 4,35 (4,22--4,57) \\
+CPU por GiB baixado (s) & 146 (137--148) & 200 (186--207) \\
+CPU por GiB enviado (s) & 50 (47--86) & 63 (61--65) \\
+CPU parado (\% de um núcleo) & 3,1 (2,6--3,3) & 0,7 (0,7--0,8) \\
+Memória, pico (RSS, MB) & 35 (35--36) & 29 (29--32) \\
+\quad memória anônima (MB) & 19 (19--20) & 19 (19--23) \\
+Memória parado, ao fim (RSS, MB) & 27 (26--30) & 11 (11--11) \\
+Consultas à API sem resposta em 3~s & 0 & 1--3 por rodada \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Resultados.} A Tabela~\ref{tab:transmission} mostra três vantagens do
+\kmp{} com faixas que não se sobrepõem: começa a transferir em menos de meio
+segundo, contra cerca de 10~s do Transmission; gasta 27\% menos CPU por GiB
+baixado; e sua API respondeu a todas as consultas, enquanto a do Transmission
+deixou de responder em até 3~s de uma a três vezes por rodada, sempre no início
+da transferência. A velocidade do \kmp{} foi maior na mediana, mas as faixas
+se sobrepõem e três rodadas não bastam para afirmar vantagem. O Transmission é
+mais econômico parado: usa 0,7\% de CPU contra 3,1\% e termina com 11~MB de
+memória residente contra 27~MB; a memória anônima dos dois é a mesma. Não
+investigamos a causa do atraso inicial do Transmission, que pode depender de
+ajustes fora da configuração padrão.
+
+Em suma, nenhum dos dois domina em todas as métricas. O kmp-torrentd é mais
+eficiente e responsivo durante a transferência, que é o momento crítico num
+console que divide a CPU com a interface, e o Transmission gasta menos com o
+aparelho parado. Esse custo em repouso é um ponto a melhorar no \kmp{}.
+
+% ---------------------------------------------------------------------------
+\section{Artefatos, documentação e demonstração}
+\label{sec:artefatos}
+
+\textbf{Código-fonte e licença.} O Client e o daemon estão em
+\url{https://github.com/FerreiraTechLab/KMP} e o Publisher em
+\url{https://github.com/FerreiraTechLab/KMP-Publisher}, ambos sob a
+GPL-3.0; a cópia modificada da anacrolix/torrent mantém a MPL-2.0. O
+catálogo (MIT) está em \url{https://github.com/FerreiraTechLab/KMP-catalog}
+e os binários (Apache-2.0) em
+\url{https://github.com/FerreiraTechLab/KMP-releases}.
+
+\textbf{Documentação.} O manual de instalação, uso e arquitetura está em
+\url{https://kpm-ferreiratechlab.web.app}. As medições da
+Seção~\ref{sec:avaliacao}, com dados brutos, scripts e instruções de
+reprodução, estão em \pendente{URL do repositório de artefatos}.
+
+\textbf{Demonstração planejada.} Dois consoles portáteis, um notebook e um
+celular como roteador móvel. Roteiro: (1)~publicar um pacote pelo Publisher;
+(2)~mostrar o catálogo assinado chegando aos consoles; (3)~baixar o pacote em
+um console a partir do outro, na mesma rede; (4)~mudar um console para a
+rede móvel e mostrar a semeação entre redes pelo nó público. Requisitos:
+uma tomada, rede Wi-Fi com acesso à Internet e uma mesa.
+
+% ---------------------------------------------------------------------------
+\section{Conclusão}
+\label{sec:conclusao}
+
+O \kmp{} mostra que é possível operar distribuição cooperativa e autenticada
+de pacotes em consoles de 1~GB espalhados por redes domésticas, com um
+daemon independente, consumo de recursos medido e semeação entre redes
+diferentes. Comparado ao Transmission no mesmo console, o daemon do \kmp{}
+começou a transferir 10~s antes e gastou 27\% menos CPU por GiB baixado, mas
+consome mais em repouso. Os trabalhos futuros incluem reduzir esse custo em
+repouso, nós públicos redundantes operados pela comunidade e a integração com
+o gerenciamento de um segundo cartão SD.
+
+\bibliographystyle{sbc}
+\bibliography{referencias}
+
+\end{document}

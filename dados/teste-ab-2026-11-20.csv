@@ -1,0 +1,99 @@
+data,console,versao,rodada,componente,metrica,valor,unidade
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,interface,cpu_interface_parada,34.85,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,interface,cpu_interface_parada,34.83,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,interface,cpu_interface_parada,34.93,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,interface,cpu_interface_parada,5.15,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,interface,cpu_interface_parada,5.15,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,interface,cpu_interface_parada,5.05,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,,interface,rss_interface,55,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,,interface,rss_interface,55,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,anonima_motor_pico,16.621,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,anonima_motor_pico,14.66,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,anonima_motor_pico,16.449,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,anonima_motor_pico,15.395,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,anonima_motor_pico,15.402,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,anonima_motor_pico,15.539,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,api_pior_resposta,0.273,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,api_pior_resposta,1.541,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,api_pior_resposta,0.169,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,api_pior_resposta,0.215,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,api_pior_resposta,0.807,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,api_pior_resposta,0.324,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,api_sem_resposta,0,amostras
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,cpu_motor_baixando,54.808,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,cpu_motor_baixando,55.226,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,cpu_motor_baixando,58.712,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,cpu_motor_baixando,53.978,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,cpu_motor_baixando,55.298,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,cpu_motor_baixando,60.073,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,cpu_motor_enviando,37.426,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,cpu_motor_enviando,16.325,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,cpu_motor_enviando,18.89,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,cpu_motor_enviando,22.951,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,cpu_motor_enviando,22.43,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,cpu_motor_enviando,44.716,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,cpu_motor_parado,2.89,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,cpu_motor_parado,0.819,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,cpu_motor_parado,1.972,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,cpu_motor_parado,2.861,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,cpu_motor_parado,2.563,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,cpu_motor_parado,1.6,% de um núcleo
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,cpu_s_por_gib_baixado,191.24,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,cpu_s_por_gib_baixado,283.96,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,cpu_s_por_gib_baixado,275.56,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,cpu_s_por_gib_baixado,191.88,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,cpu_s_por_gib_baixado,185.52,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,cpu_s_por_gib_baixado,288.84,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,cpu_s_por_gib_enviado,92.72,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,cpu_s_por_gib_enviado,43.12,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,cpu_s_por_gib_enviado,46.56,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,cpu_s_por_gib_enviado,58.0,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,cpu_s_por_gib_enviado,54.68,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,cpu_s_por_gib_enviado,109.24,s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,download,2.957,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,download,1.995,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,download,2.193,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,download,2.889,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,download,3.063,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,download,2.135,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,mapeado_motor_pico,264.953,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,mapeado_motor_pico,258.559,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,mapeado_motor_pico,247.258,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,mapeado_motor_pico,15.312,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,mapeado_motor_pico,14.91,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,mapeado_motor_pico,15.398,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,pss_motor_pico,281.367,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,pss_motor_pico,271.25,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,pss_motor_pico,262.562,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,pss_motor_pico,27.148,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,pss_motor_pico,26.656,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,pss_motor_pico,29.73,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,ram_disponivel_min,386.191,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,ram_disponivel_min,321.988,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,ram_disponivel_min,322.133,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,ram_disponivel_min,349.523,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,ram_disponivel_min,316.086,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,ram_disponivel_min,327.52,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,rss_motor_fim,279.297,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,rss_motor_fim,258.129,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,rss_motor_fim,249.875,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,rss_motor_fim,20.945,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,rss_motor_fim,18.43,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,rss_motor_fim,23.098,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,rss_motor_pico,281.375,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,rss_motor_pico,271.258,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,rss_motor_pico,262.57,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,rss_motor_pico,27.156,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,rss_motor_pico,26.664,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,rss_motor_pico,29.738,MiB
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,1,motor,upload,4.201,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,2,motor,upload,3.956,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.56,3,motor,upload,4.253,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,1,motor,upload,4.116,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,2,motor,upload,4.254,MiB/s
+2026-11-20,192.168.0.98 (portátil novo),0.2.60,3,motor,upload,4.252,MiB/s
