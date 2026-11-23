@@ -143,33 +143,28 @@ monotônica e expiração. A travessia de NAT por hole
 punching~\cite{ford2005nat,rfc5128} é padronizada no BitTorrent pela
 BEP~55~\cite{bep55}.
 
-A Tabela~\ref{tab:comparacao} resume as diferenças segundo a documentação
-consultada. A ausência de marca não significa ausência da funcionalidade, e
-sim que ela não foi confirmada nas fontes.
+A Tabela~\ref{tab:comparacao} resume as diferenças, conferidas na
+documentação e, para o Transmission e o aria2, no código-fonte.
 
 \begin{table}[ht]
 \centering
-\caption{Características segundo a documentação de cada ferramenta
-($\bullet$ documentado; ? não confirmado; -- fora do escopo).}
+\caption{Comparação das ferramentas (situação em novembro de 2026).}
 \label{tab:comparacao}
 \footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lccccc@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llllll@{}}
 \toprule
-Característica & \kmp{} & Transmission & aria2 & Dragonfly & PeerSync \\
+ & \kmp{} & Transmission & aria2 & Dragonfly & PeerSync \\
 \midrule
-Alvo principal & consoles & desktop & desktop & cluster & borda \\
-DHT, PEX e descoberta local & $\bullet$ & $\bullet$ & $\bullet$ & ? & ? \\
-Hole punching (BEP 55) & $\bullet$ & ? & ? & ? & ? \\
-Catálogo assinado com anti-rollback & $\bullet$ & -- & -- & ? & ? \\
-Instalação dos pacotes & $\bullet$ & -- & -- & $\bullet$ & $\bullet$ \\
-Executável estático, sem dependências & $\bullet$ & ? & ? & ? & ? \\
-Avaliado em aparelho de 1~GB & $\bullet$ & ? & ? & ? & ? \\
+Alvo & consoles & desktop & desktop & cluster & borda \\
+Descoberta de peers & \multicolumn{3}{c}{tracker, DHT, PEX e descoberta local} & agendador & tracker eleito \\
+Hole punching (BEP 55) & sim & não lançado\textsuperscript{a} & não & não documentado & não documentado \\
+Autenticidade & catálogo assinado & -- & -- & digests OCI & digests OCI \\
+Instala os pacotes & sim & não & não & via contêiner & via contêiner \\
 \bottomrule
+\multicolumn{6}{@{}l}{\textsuperscript{a}\,Incorporado ao código em agosto de 2026, ainda fora das versões lançadas (até a 4.1.4).}
 \end{tabular}
 \end{table}
-
-\pendente{conferir cada ``?'' na documentação antes da submissão.}
 
 % ---------------------------------------------------------------------------
 \section{Arquitetura e funcionalidades}
@@ -389,10 +384,10 @@ Os resultados mostram as duas funções da infraestrutura: o nó público garant
 entrega logo após uma mudança de rede, e a semeação entre consoles assume a
 maior parte do tráfego quando a descoberta se propaga. Além disso, um pacote de
 2,96~GiB foi validado pelo CI baixando exclusivamente do swarm em 21,5~min. O
-experimento também revelou dois defeitos, a corrigir na próxima versão: a
+experimento também revelou dois defeitos, corrigidos na versão 0.2.61: a
 descoberta local não se recuperava após a troca de rede, e o gerenciador de
-ports dos firmwares encerra todos os processos Python ao sair de qualquer jogo,
-inclusive os do nó comunitário.
+ports dos firmwares encerrava, ao sair de qualquer jogo, os processos Python do
+\kmp{}, inclusive o monitor que pausa a semeação com bateria baixa.
 
 \subsection{Comparação com um cliente de uso geral (Q3)}
 
@@ -404,8 +399,9 @@ pelo mesmo tracker HTTP na rede local. O Transmission foi obtido dos pacotes
 do Alpine Linux e roda com as próprias bibliotecas musl, sem alterar o
 firmware, e usa a configuração padrão, exceto pelo que precisa ser igual ao
 \kmp{}: sem limites de banda e de proporção, sem descoberta local e com DHT,
-PEX, uTP e mapeamento de porta ligados. Separamos o tempo até o primeiro byte
-da velocidade medida a partir dele.
+PEX, uTP e mapeamento de porta ligados. Usamos a versão empacotada no Alpine
+Linux~3.22; a mais recente é a 4.1.4, que não testamos. Separamos o tempo até o
+primeiro byte da velocidade medida a partir dele.
 
 \begin{table}[ht]
 \centering
